@@ -5,7 +5,6 @@ def retry_handler(max_retry = 5, sleep_time = 0.5):
         def inner_function(*args, **kwargs):
             attempt = 0
             while attempt < max_retry:
-            
                 try:
                     return function(*args, **kwargs)
                 except Exception as e:
