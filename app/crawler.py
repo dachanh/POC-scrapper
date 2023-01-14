@@ -7,9 +7,6 @@ from bs4 import BeautifulSoup
 def checkSitemap(url):
     return len(url) > 3 and url[-3:] == 'xml' 
 
-# TODO:
-# 
-#
 @retry_handler(max_retry=6,sleep_time=1)
 def scrapper(url : str):
     data = requests.get(url)
@@ -36,6 +33,7 @@ class crawler(multiprocessing.Process):
             self.outputQueue.put((sitemapURLsList, data))
             self.workerQueue.task_done()
         return 
+### Save data
 def saveData(path: str, data: list):
     with open(path,'w') as writer:
         for it in data:
@@ -43,6 +41,7 @@ def saveData(path: str, data: list):
         writer.close()
 
 def handler(url : str, path : str):
+    # use set to avoid duplicate element
     unduplicateDataList = set()
     unduplicateSitemapUrlList = set()
     sitemapURLsList, data = scrapper(url=url)
@@ -69,11 +68,11 @@ def handler(url : str, path : str):
 
         while True:
             tempsitemapURLsList , data =outputQueue.get()
+            # filter to avoid duplicate path 
             tempsitemapURLsList = list(filter(lambda x: not x in unduplicateSitemapUrlList,tempsitemapURLsList))
             sitemapURLsList.extend(tempsitemapURLsList)
             unduplicateSitemapUrlList.update(tempsitemapURLsList)
             currentTask += 1
-            print(f'Check current task {currentTask}')
             unduplicateDataList.update(data)
             if currentTask == endTask :
                 break
@@ -81,4 +80,3 @@ def handler(url : str, path : str):
 
     saveData(path=path,data=list(unduplicateDataList))
 
-handler(url= "https://www.vecteezy.com/sitemap.xml",path="./test.txt")
