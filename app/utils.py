@@ -8,6 +8,7 @@ def retry_handler(max_retry = 5, sleep_time = 0.5):
                 try:
                     return function(*args, **kwargs)
                 except Exception as e:
+                    print(e)
                     attempt += 1
                 time.sleep(sleep_time * attempt)
             if attempt >= max_retry:
