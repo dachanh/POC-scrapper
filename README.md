@@ -4,7 +4,7 @@
 
 ```
 python3
-m
+make
 ```
 
 
