@@ -19,7 +19,7 @@ def scrapper(url : str):
 
 
 class crawler(multiprocessing.Process):
-    def __init__(self,workerQueue : multiprocessing.JoinableQueue() ,outputQueue : multiprocessing.JoinableQueue() ):
+    def __init__(self,workerQueue : multiprocessing.JoinableQueue() ,outputQueue : multiprocessing.Queue() ):
         multiprocessing.Process.__init__(self)
         self.workerQueue = workerQueue
         self.outputQueue = outputQueue
