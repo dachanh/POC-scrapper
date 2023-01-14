@@ -1,6 +1,7 @@
 import time
 
-def retry_handler(max_retry = 5, sleep_time = 0.5):
+
+def retry_handler(max_retry=5, sleep_time=0.5):
     def decorator(function):
         def inner_function(*args, **kwargs):
             attempt = 0
@@ -19,9 +20,10 @@ def retry_handler(max_retry = 5, sleep_time = 0.5):
 
     return decorator
 
+
 class TimeoutException(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
-    
+
     def __str__(self) -> str:
         return "exceeded the retry_timeout"
