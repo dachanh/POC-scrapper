@@ -38,7 +38,7 @@ class crawler(multiprocessing.Process):
             try:
                 sitemapURLsList, data = scrapper(url=url)
             except Exception as e:
-                print(f"The task is still running but please check the error: {e}")
+                print(f"Please check the error: {e}")
                 sitemapURLsList, data = [], []
             self.outputQueue.put((sitemapURLsList, data))
             self.workerQueue.task_done()
